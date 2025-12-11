@@ -28,11 +28,11 @@ public class JournalEntryController {
     @GetMapping("{userName}")
     public ResponseEntity<?> getAllJournalEntriesOfUser(@PathVariable String userName){
         User user = userService.findByUserName(userName);
-        List<JournalEntry> all = user.getJournalEntries();
-        if(all != null && !all.isEmpty()){
-            return new ResponseEntity<>(user,HttpStatus.OK);
+        if(user != null){
+            List<JournalEntry> entries = user.getJournalEntries();
+            return new ResponseEntity<>(entries, HttpStatus.OK); // return journal entries list
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND); // user not found
     }
 
     @PostMapping("{userName}")
@@ -55,7 +55,7 @@ public class JournalEntryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("id/{userName}/{id}")
+    @DeleteMapping("/id/{userName}/{id}")
     public ResponseEntity<?> deleteById(@PathVariable ObjectId id,@PathVariable String userName){
         if(journalEntryService.getEntryById(id).isPresent()){
             journalEntryService.deleteEntrybyId(id,userName);
@@ -64,10 +64,11 @@ public class JournalEntryController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("id/{userName}/{id}")
+    @PutMapping("/id/{userName}/{id}")
     public ResponseEntity<?> updateById(@PathVariable ObjectId id,
                                         @RequestBody JournalEntry entry,
                                         @PathVariable String userName){
+        System.out.println("PUT called for user: " + userName + " with entryId: " + id);
         JournalEntry oldEntry = journalEntryService.getEntryById(id).orElse(null);
         if(oldEntry != null ){
             oldEntry.setTitle(entry.getTitle() != null && !entry.getTitle().isEmpty() ? entry.getTitle() : oldEntry.getTitle());
