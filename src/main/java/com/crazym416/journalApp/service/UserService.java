@@ -28,6 +28,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void createAdminUser(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // password is hashed here
+        user.setRoles(Arrays.asList("USER","ADMIN"));
+        userRepository.save(user);
+    }
+
     public void updateUser(User user){
         userRepository.save(user);
     }
@@ -51,4 +57,6 @@ public class UserService {
     public List<User> getAll(){
         return userRepository.findAll();
     }
+
+
 }

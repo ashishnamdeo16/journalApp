@@ -34,11 +34,13 @@ public class JournalEntryService {
         journalEntryRepository.save(journalEntry);
     }
 
+    @Transactional
     public void deleteEntrybyId(ObjectId id, String userName){
         User user = userService.findByUserName(userName);
-            if(user.getJournalEntries().removeIf(x -> x.getId().equals(id)));
-            userService.createUser(user);
-            journalEntryRepository.deleteById(id);
+            if(user.getJournalEntries().removeIf(x -> x.getId().equals(id))){
+                userService.updateUser(user);
+                journalEntryRepository.deleteById(id);
+            }
     }
 
     public Optional<JournalEntry> getEntryById(ObjectId id) {
