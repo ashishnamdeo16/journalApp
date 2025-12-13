@@ -1,8 +1,0 @@
-spring:
-  mongodb:
-    uri: mongodb+srv://ashishnamdev14_db_user:NXOGdgP3YWv7M640@cluster0.ulqvyrj.mongodb.net/?appName=Cluster0
-    database: journaldb
-    auto-index-creation: true
-
-server:
-  port: 8080
