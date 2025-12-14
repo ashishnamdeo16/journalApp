@@ -4,7 +4,9 @@ import com.crazym416.journalApp.entity.JournalEntry;
 import com.crazym416.journalApp.entity.User;
 import com.crazym416.journalApp.repository.JournalEntryRepository;
 import com.crazym416.journalApp.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -12,8 +14,10 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
 
 @Component
+@Slf4j
 public class UserService {
 
     @Autowired
@@ -22,10 +26,21 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    //Remove because it is taken care by @Slf4j
+   // private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+
     public void createUser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // password is hashed here
-        user.setRoles(Arrays.asList("USER"));
-        userRepository.save(user);
+        try{
+            user.setPassword(passwordEncoder.encode(user.getPassword())); // password is hashed here
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+//            return true;
+        }catch(Exception e){
+            log.error("Cannot Create a New User");
+//            return false;
+        }
+
     }
 
     public void createAdminUser(User user){

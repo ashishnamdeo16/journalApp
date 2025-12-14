@@ -24,6 +24,10 @@ src/main/resources/application-prod.yml
 *.iml
 *.ipr
 
+
+### Logs ###
+.log
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

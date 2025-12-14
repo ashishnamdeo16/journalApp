@@ -1,0 +1,42 @@
+<configuration>
+    <appender name="myConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm} %-5level %logger{35} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="myFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <!-- Current log file -->
+        <file>journalApp.log</file>
+
+        <!-- Rolling policy -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+            <!-- Rolled files pattern -->
+            <fileNamePattern>journalApp.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+            <!-- Keep logs for 30 days -->
+            <maxHistory>10</maxHistory>
+
+            <!-- Size-based triggering -->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <!-- Log format -->
+        <encoder>
+            <pattern>%d{HH:mm} %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+
+    </appender>
+
+
+    <root level="INFO">
+        <appender-ref ref="myConsoleAppender" />
+        <appender-ref ref="myFileAppender" />
+    </root>
+</configuration>
