@@ -23,7 +23,7 @@ src/main/resources/application-prod.yml
 *.iws
 *.iml
 *.ipr
-
+.yml
 
 ### Logs ###
 .log
@@ -40,3 +40,16 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+journalApp*.log
+
+# Maven
+/target/
+
+# Sonar
+.sonar/
