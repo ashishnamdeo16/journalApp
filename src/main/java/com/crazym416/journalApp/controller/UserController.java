@@ -1,6 +1,7 @@
 package com.crazym416.journalApp.controller;
 
 import com.crazym416.journalApp.entity.User;
+import com.crazym416.journalApp.service.QuotesService;
 import com.crazym416.journalApp.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,23 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private QuotesService quotesService;
+
+//    @GetMapping
+//    public ResponseEntity<?>  getAllUser(){
+//        List<User> all = userService.getAll();
+//        if(all != null && !all.isEmpty()){
+//            return new ResponseEntity<>(all,HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
+
     @GetMapping
-    public ResponseEntity<?>  getAllUser(){
-        List<User> all = userService.getAll();
-        if(all != null && !all.isEmpty()){
-            return new ResponseEntity<>(all,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> greeting(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        return new ResponseEntity<>("Hi " + userName +  " Quote For You: " + quotesService.getQuote(),HttpStatus.OK);
     }
 
     @PostMapping
