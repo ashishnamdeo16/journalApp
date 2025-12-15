@@ -21,8 +21,8 @@ public class QuotesService {
     @Value("${api.ninjas.quotes-url}")
     private String API;
 
-    @Autowired
-    private RestTemplate restTemplate;
+
+    private static final RestTemplate restTemplate = new RestTemplate();
 
     public @Nullable String getQuote(){
 
