@@ -1,5 +1,6 @@
 package com.crazym416.journalApp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import tools.jackson.databind.ObjectMapper;
 
 
 @Component
+@Slf4j
 public class QuotesService {
 
     @Value("${api.ninjas.key}")
@@ -49,7 +51,8 @@ public class QuotesService {
                 return root.get(0).get("quote").asText();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Unexpected error occurred", e);
+            throw new RuntimeException("Something went wrong", e);
         }
 
         return null;
