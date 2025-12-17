@@ -1,5 +1,6 @@
 package com.crazym416.journalApp.service;
 
+import com.crazym416.journalApp.cache.AppCache;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class QuotesService {
     @Value("${api.ninjas.key}")
     private String API_KEY;
 
-    @Value("${api.ninjas.quotes-url}")
-    private String API;
+    @Autowired
+    private AppCache appCache;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -35,7 +36,7 @@ public class QuotesService {
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                API,
+                appCache.appCache.get(AppCache.keys.quotes_api.toString()),
                 HttpMethod.GET,
                 entity,
                 String.class
